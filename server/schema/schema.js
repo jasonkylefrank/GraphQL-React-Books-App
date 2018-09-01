@@ -1,5 +1,7 @@
 const graphql = require('graphql');
 const _ = require('lodash');
+const Book = require('../mongo_models/book');
+const Author = require('../mongo_models/author');
 
 const {
     GraphQLObjectType,
@@ -10,22 +12,20 @@ const {
     GraphQLList } = graphql;
 
 
+// // Dummy data
+// let books = [
+//     { name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorId: '1' },
+//     { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2' },
+//     { name: 'Some Book Name', genre: 'Sci-Fi', id: '4', authorId: '2' },
+//     { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' },
+//     { name: 'The Fake Book', genre: 'Sci-Fi', id: '0', authorId: '3' }
+// ];
 
-// dummy data
-let books = [
-    { name: 'Name of the Wind', genre: 'Fantasy', id: '1', authorId: '1' },
-    { name: 'The Final Empire', genre: 'Fantasy', id: '2', authorId: '2' },
-    { name: 'Some Book Name', genre: 'Sci-Fi', id: '4', authorId: '2' },
-    { name: 'The Long Earth', genre: 'Sci-Fi', id: '3', authorId: '3' },
-    { name: 'The Fake Book', genre: 'Sci-Fi', id: '0', authorId: '3' }
-];
-
-let authors = [
-    { name: 'Patrick Rothfuss', age: 44, id: '1', bookIds: ['1'] },
-    { name: 'Brandon Sanderson', age: 42, id: '2', bookIds: ['2'] },
-    { name: 'Terry Pratchett', age: 66, id: '3', bookIds: ['0', '3'] }
-];
-
+// let authors = [
+//     { name: 'Patrick Rothfuss', age: 44, id: '1', bookIds: ['1'] },
+//     { name: 'Brandon Sanderson', age: 42, id: '2', bookIds: ['2'] },
+//     { name: 'Terry Pratchett', age: 66, id: '3', bookIds: ['0', '3'] }
+// ];
 
 const BookType = new GraphQLObjectType({
     name: 'Book',
@@ -36,7 +36,8 @@ const BookType = new GraphQLObjectType({
         author: {
             type: AuthorType,
             resolve(parent, args) {
-                return _.find(authors, { id: parent.authorId });
+                // --- For using local hard-coded dummy data
+                //return _.find(authors, { id: parent.authorId });
             }
         }
     })
@@ -60,6 +61,7 @@ const AuthorType = new GraphQLObjectType({
             // (see: https://jaketrent.com/post/return-array-graphql/ )
             type: new GraphQLList(BookType),
             resolve(parent, args) {
+                // --- For using local hard-coded dummy data
                 // const authorBooks = books.filter((book) => {
                 //     const match = parent.bookIds.find((authorBookId) => (
                 //         authorBookId === book.id
@@ -69,7 +71,7 @@ const AuthorType = new GraphQLObjectType({
                 // return authorBooks;
 
                 // Or if we use underscore, we could do it like this:
-                return _.filter(books, { authorId: parent.id });
+                //return _.filter(books, { authorId: parent.id });
             }
         }
     })
@@ -84,34 +86,63 @@ const RootQuery = new GraphQLObjectType({
             type: BookType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                // Code to get data from db or other source
-                console.log(typeof (args.id));
-                return _.find(books, { id: args.id });
+                // --- For using local hard-coded dummy data
+                //return _.find(books, { id: args.id });
             }
         },
         author: {
             type: AuthorType,
             args: { id: { type: GraphQLID } },
             resolve(parent, args) {
-                return _.find(authors, { id: args.id });
+                // --- For using local hard-coded dummy data
+                //return _.find(authors, { id: args.id });
             }
         },
         books: {
             type: new GraphQLList(BookType),
             resolve(parent, args) {
-                return books;
+                // --- For using local hard-coded dummy data
+                //return books;
             }
         },
         authors: {
             type: new GraphQLList(AuthorType),
             resolve(parent, args) {
-                return authors;
+                // --- For using local hard-coded dummy data
+                //return authors;
             }
+        }
+    }
+});
+
+const Mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: {
+        // Define the various mutations
+        addAuthor: {
+            type: AuthorType,
+            args: { 
+                name: { type: GraphQLString },
+                age: { type: GraphQLInt }
+             },
+             resolve(parent, args) {
+                 // Create an instance of the mongoose model
+                 let author = new Author({
+                     name: args.name,
+                     age: args.age
+                 });
+                 // Save it to the MongoDb via a Mongoose method.
+                 // Return the result so we can immediately query what
+                 //  was saved
+                 return author.save();
+             }
         }
     }
 });
 
 module.exports = new GraphQLSchema({
     // Expose the root query as entry points for client code
-    query: RootQuery
+    query: RootQuery,
+    // Expose all of our mutations
+    mutation: Mutation
 });

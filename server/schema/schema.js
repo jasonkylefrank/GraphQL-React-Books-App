@@ -38,6 +38,8 @@ const BookType = new GraphQLObjectType({
             resolve(parent, args) {
                 // --- For using local hard-coded dummy data
                 //return _.find(authors, { id: parent.authorId });
+                // --- For using the MongoDb via a Mongoose method
+                return Author.findById(parent.authorId);
             }
         }
     })
@@ -72,6 +74,8 @@ const AuthorType = new GraphQLObjectType({
 
                 // Or if we use underscore, we could do it like this:
                 //return _.filter(books, { authorId: parent.id });
+                // --- For using the MongoDb via a Mongoose method
+                return Book.find({ authorId: parent.id });
             }
         }
     })
@@ -88,6 +92,8 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 // --- For using local hard-coded dummy data
                 //return _.find(books, { id: args.id });
+                // --- For using the MongoDb via a Mongoose method
+                return Book.findById(args.id);
             }
         },
         author: {
@@ -96,6 +102,8 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 // --- For using local hard-coded dummy data
                 //return _.find(authors, { id: args.id });
+                // --- For using the MongoDb via a Mongoose method
+                return Author.findById(args.id);
             }
         },
         books: {
@@ -103,6 +111,10 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 // --- For using local hard-coded dummy data
                 //return books;
+                // --- For using the MongoDb via a Mongoose method
+                //     (To grab all of the items in the collection, just
+                //      pass an empty object)
+                return Book.find({});
             }
         },
         authors: {
@@ -110,6 +122,10 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 // --- For using local hard-coded dummy data
                 //return authors;
+                // --- For using the MongoDb via a Mongoose method
+                //     (To grab all of the items in the collection, just
+                //      pass an empty object)
+                return Author.find({});
             }
         }
     }

@@ -79,7 +79,7 @@ const AuthorType = new GraphQLObjectType({
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
-    // each of these "fields" will be root queries
+    // Each of these "fields" will be root queries
     //  (or entry points)
     fields: {
         book: {
@@ -133,9 +133,29 @@ const Mutation = new GraphQLObjectType({
                  });
                  // Save it to the MongoDb via a Mongoose method.
                  // Return the result so we can immediately query what
-                 //  was saved
+                 //  was saved.
                  return author.save();
              }
+        },
+        addBook: {
+            type: BookType,
+            args: {
+                name: { type: GraphQLString },
+                genre: { type: GraphQLString },
+                authorId: { type: GraphQLID }
+            },
+            resolve(parent, args) {
+                // Create an instance of the mongoose model
+                let book = new Book({
+                    name: args.name,
+                    genre: args.genre,
+                    authorId: args.authorId
+                });
+                // Save it to the MongoDb via a Mongoose method.
+                 // Return the result so we can immediately query what
+                 //  was saved.
+                 return book.save();
+            }
         }
     }
 });

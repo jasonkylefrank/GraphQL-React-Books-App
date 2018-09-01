@@ -8,7 +8,7 @@ const bookSchema = new Schema({
     // Don't need to worry about Id b/c mLab will create it
 });
 
-// Create a mongoose MODEL called "Book" based on the bookSchema
+// Create a mongoose MODEL called "Book" based on the bookSchema.
 // This will correspond to a "Books" COLLECTION in MongoDb 
 //  (it knows to pluralize it)
 module.exports = mongoose.model('Book', bookSchema);

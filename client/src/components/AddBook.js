@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
-import { gql } from 'apollo-boost';
 import { graphql } from 'react-apollo';
+import { getAuthorsQuery } from '../queries/queries';
 
-const getAuthorQuery = gql`
-    {
-        authors {
-            name
-            id
-        }
-    }
-`;
 
 class AddBook extends Component {
 
@@ -51,4 +43,4 @@ class AddBook extends Component {
 
 // Bind the GraphQL query to the component so the data from the query will get
 //  passed-in to the component via props.
-export default graphql(getAuthorQuery)(AddBook);
+export default graphql(getAuthorsQuery)(AddBook);

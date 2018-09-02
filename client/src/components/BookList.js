@@ -34,4 +34,6 @@ class BookList extends Component {
   }
 }
 
+// Bind the GraphQL query to the component so the data from the query will get
+//  passed-in to the component via props.
 export default graphql(getBooksQuery)(BookList);

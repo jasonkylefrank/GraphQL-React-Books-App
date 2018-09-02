@@ -2,12 +2,17 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const schema = require('./schema/schema');
 const mongoose = require('mongoose');
+const cors = require('cors');
 // Configure the dotenv module so we can access our DB credentials or
 //  other values from environment variables.
 require('dotenv').config();
 
 const app = express();
 const port = 4000;
+
+// Allow cross-origin requests via the "cors" middleware.
+//  See: https://www.youtube.com/watch?v=uyrUI1tgayk&index=26&list=PL4cUxeGkcC9iK6Qhn-QLcXCXPQUov1U7f
+app.use(cors());
 
 // Connect to mLab database
 const dbUser = process.env.DB_USER;

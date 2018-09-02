@@ -14,6 +14,14 @@ class AddBook extends Component {
         // Stop the browser from refreshing when the user submits the form
         e.preventDefault();
         const { name, genre, authorId } = this.state;
+        // Store the new book to the database via the bound mutation prop.
+        //
+        // Right now the refetchQueries option is passed-in to tell the
+        //   GraphQL query to refetch data from the DB after this mutation
+        //   so that the BookList (or other) component can receive the new 
+        //   complete list and print it to the screen.
+        // TODO: Investigate using a GraphQL subscription in that other component
+        //   so that this component does not have to deal with this issue.
         this.props.addBookMutation({
             variables: {
                 name: name,

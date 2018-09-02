@@ -85,8 +85,7 @@ const AuthorType = new GraphQLObjectType({
 
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
-    // Each of these "fields" will be root queries
-    //  (or entry points)
+    // Each of these "fields" will be ROOT QUERIES (or entry points)
     fields: {
         book: {
             type: BookType,

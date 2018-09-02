@@ -6,6 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 // components
 import BookList from './components/BookList';
 import AddBook from './components/AddBook';
+import BookDetails from './components/BookDetails';
 
 
 // ApolloClient setup
@@ -15,6 +16,15 @@ const client = new ApolloClient({
 });
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { selectedBookId: null };
+  }
+
+  setSelectedBookId = (bookId) => {
+    this.setState({ selectedBookId: bookId });
+  }
+
   // The ApolloProvider will inject data from the endpoint into our components
   //  because it is wrapping everything in the app.
   render() {
@@ -22,9 +32,9 @@ class App extends Component {
       <ApolloProvider client={client}>
         <div id="main">
           <h1>Jason's reading list</h1>
-          <BookList />
+          <BookList setSelectedBookId={this.setSelectedBookId} />
           <AddBook />
-
+          <BookDetails bookId={this.state.selectedBookId} />
         </div>
       </ApolloProvider>
     );

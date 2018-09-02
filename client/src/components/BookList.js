@@ -4,22 +4,33 @@ import { getBooksQuery } from '../queries/queries';
 
 class BookList extends Component {
 
+  setSelectedBook = (bookId) => {
+    this.props.setSelectedBookId(bookId);
+  };
+
   renderBooks = () => {
+    // Notice that that this.props.data refers to the result of the 
+    //  getBooksQuery GraphQL query.  It includes extra properties besides just
+    //  the "books" data though, such as the "loading" flag.
     const { books, loading } = this.props.data;
 
     if (loading) {
-        return (<div>Loading books...</div>);
+      return (<div>Loading books...</div>);
     } else {
-        return books.map((book, i) => (<li key={i}>{book.name}</li>));
+      return books.map((book, i) => (
+          <li key={book.id}
+            onClick={() => this.setSelectedBook(book.id)}>{book.name}</li>
+        )
+      );
     }
   };
 
   render() {
     return (
       <div>
-          <ul id="book-list">
-            {this.renderBooks()}
-          </ul>
+        <ul id="book-list">
+          {this.renderBooks()}
+        </ul>
       </div>
     );
   }

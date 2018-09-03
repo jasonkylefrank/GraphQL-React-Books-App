@@ -1,14 +1,70 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { getAuthorsQuery, addBookMutation, getBooksQuery } from '../queries/queries';
+import styled from 'styled-components';
+import { darken } from 'polished';
 
+
+const Form = styled.form`
+    background-color: white;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 360px;
+`;
+
+const FormField = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 8px;
+    margin-bottom: 8px;
+
+    & > label {
+        text-align: right;
+        padding: 4px 0;
+    }
+
+    & > input, & > select {
+        padding: 4px;
+        box-sizing: border-box;
+        height: 100%;
+    }
+`;
+
+const fabSize = 40;
+const FormButton = styled.button`
+    color: white;
+    font-size: 24px;
+    background-color: ${props => props.theme.colorBrandPrimary};
+    border-radius: 50%;
+    border: 0;
+    padding: 0 10px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 16px;
+    left: 10px;
+    width: ${fabSize}px; height: ${fabSize}px;
+    box-shadow: 0 2px 9px rgba(0,0,0,0.6);
+    transition: .3s all;
+    /* Hack!  Vertical positioning to the middle...  */
+    padding-bottom: 2px;
+
+    :hover {
+        box-shadow: 0 2px 12px rgba(0,0,0,0.9);
+    }
+`;
+
+const FormTitle = styled.h3`
+    color: ${props => darken(0.08, props.theme.colorBrandPrimary)};
+    margin-top: 0px;
+    margin-bottom: 12px;
+    text-align: center;
+`;
 
 class AddBook extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = { name: '', genre: '', authorId: '' };
-    }
+    state = { name: '', genre: '', authorId: '' };
 
     submitForm = (e) => {
         // Stop the browser from refreshing when the user submits the form
@@ -46,28 +102,29 @@ class AddBook extends Component {
 
     render() {
         return (
-            <form id='add-book' onSubmit={this.submitForm} >
-                <div className="field">
+            <Form onSubmit={this.submitForm} >
+                <FormTitle>Add a book</FormTitle>
+                <FormField>
                     <label htmlFor="bookNameInput">Book name:</label>
                     <input id="bookNameInput" type="text" 
                            onChange={(e) => this.setState({ name: e.target.value })} />
-                </div>
-                <div className="field">
+                </FormField>
+                <FormField>
                     <label htmlFor="bookGenreInput">Genre:</label>
                     <input id="bookGenreInput" type="text" 
                            onChange={(e) => this.setState({ genre: e.target.value })}/>
-                </div>
-                <div className="field">
+                </FormField>
+                <FormField>
                     <label htmlFor="authorPicker">Author:</label>
                     <select name="authorPicker" id="authorPicker"
                             onChange={(e) => this.setState({ authorId: e.target.value })}>
                         <option>Select author</option>
                         {this.renderAuthors()}
                     </select>
-                </div>
+                </FormField>
 
-                <button>+</button>
-            </form>
+                <FormButton>+</FormButton>
+            </Form>
         );
     }
 }

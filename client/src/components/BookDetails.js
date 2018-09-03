@@ -1,6 +1,24 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { getBookQuery } from '../queries/queries';
+import styled from 'styled-components';
+
+
+const BookDetailWrapper = styled.div`
+    background-color: ${props => props.theme.colorBrandPrimary};
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 40%;
+    height: 100%;
+    padding: 24px;
+    overflow: auto;
+    box-shadow: -2px 0 6px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+    color: white;
+`;
+
+
 
 class BookDetails extends Component {
 
@@ -14,9 +32,8 @@ class BookDetails extends Component {
         return (
             <div>
                 <h3>{name}</h3>
-                <p>{genre}</p>                
-                <h5>By {author.name}</h5> 
-                <p>{author.age} years old</p>   
+                <span>By {author.name} | {genre}</span> 
+                {/* <p>{author.age} years old</p>    */}
                 <p>All books by this author:</p>           
                 <ul className="other-books">
                     {bookElements}
@@ -27,13 +44,14 @@ class BookDetails extends Component {
 
     renderBookLoading = () => {
         return (
-            <div>Loading book...</div>
+            //<div>Loading book...</div>
+            <div></div>
         );
     }
 
     renderNoBook = () => {
         return (
-            <div>No book selected</div>
+            <div>No book selected...</div>
         );
     }
 
@@ -51,9 +69,9 @@ class BookDetails extends Component {
         }
 
         return (
-            <div id="book-details">
+            <BookDetailWrapper>
                 {contents}
-            </div>
+            </BookDetailWrapper>
         );
     }
 }

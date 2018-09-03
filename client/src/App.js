@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 
 // components
 import BookList from './components/BookList';
@@ -14,21 +14,32 @@ const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql'
 });
 
-// Styled Components
+// --- Styled Components & Theme
+const theme = {
+  colorBrandPrimary: "#c59305"
+};
+
 const Main = styled.main`
   padding: 0px;
   box-sizing: border-box;
   width: 60%;
   height: 100%;
-  background-color: pink;
+  //background-color: pink;
 `;
 
+const AppTitle = styled.h1`
+  margin-bottom: 0;
+`;
+
+const Tagline = styled.p`
+  font-size: 13px;
+  color: rgba(0,0,0,0.54);
+  margin-top: 4px;
+`;
+// --- end Styled Components
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { selectedBookId: null };
-  }
+  state = { selectedBookId: null };
 
   setSelectedBookId = (bookId) => {
     this.setState({ selectedBookId: bookId });
@@ -39,12 +50,16 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <Main>
-          <h1>Jason's reading list</h1>
-          <BookList setSelectedBookId={this.setSelectedBookId} />
-          <AddBook />
-          <BookDetails bookId={this.state.selectedBookId} />
-        </Main>
+        <ThemeProvider theme={theme}>
+          <Main>
+            <AppTitle>Jason's reading list</AppTitle>
+            <Tagline>A GraphQL-backed React app</Tagline>
+
+            <BookList setSelectedBookId={this.setSelectedBookId} />
+            <AddBook />
+            <BookDetails bookId={this.state.selectedBookId} />
+          </Main>
+        </ThemeProvider>
       </ApolloProvider>
     );
   }

@@ -20,6 +20,7 @@ const Main = styled.main`
   box-sizing: border-box;
   width: 60%;
   height: 100%;
+  background-color: pink;
 `;
 
 

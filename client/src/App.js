@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import styled, { ThemeProvider } from 'styled-components';
+import { darken } from 'polished';
 
 // components
 import BookList from './components/BookList';
@@ -16,7 +17,7 @@ const client = new ApolloClient({
 
 // --- Styled Components & Theme
 const theme = {
-  colorBrandPrimary: "#c59305"
+  colorBrandPrimary: "#0b97b7"
 };
 
 const Main = styled.main`
@@ -24,11 +25,11 @@ const Main = styled.main`
   box-sizing: border-box;
   width: 60%;
   height: 100%;
-  //background-color: pink;
 `;
 
 const AppTitle = styled.h1`
   margin-bottom: 0;
+  color: ${darken(0.08, theme.colorBrandPrimary)};
 `;
 
 const Tagline = styled.p`

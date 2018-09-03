@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
-
+import styled from 'styled-components';
 
 // components
 import BookList from './components/BookList';
 import AddBook from './components/AddBook';
 import BookDetails from './components/BookDetails';
 
-
 // ApolloClient setup
 const client = new ApolloClient({
   // Set the endpoint that we'll make queries to
   uri: 'http://localhost:4000/graphql'
 });
+
+// Styled Components
+const Main = styled.main`
+  padding: 0px;
+  box-sizing: border-box;
+  width: 60%;
+  height: 100%;
+`;
+
 
 class App extends Component {
   constructor(props) {
@@ -30,12 +38,12 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-        <div id="main">
+        <Main>
           <h1>Jason's reading list</h1>
           <BookList setSelectedBookId={this.setSelectedBookId} />
           <AddBook />
           <BookDetails bookId={this.state.selectedBookId} />
-        </div>
+        </Main>
       </ApolloProvider>
     );
   }

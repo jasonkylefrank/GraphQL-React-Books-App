@@ -18,11 +18,35 @@ const Book = styled.li`
   cursor: pointer;
   color: ${props => props.theme.colorBrandPrimary };
   transition: all .3s ease;
+  position: relative;
+  overflow: hidden;
+
+  /* Creates a circular expand-in effect for hover state (its scaled down
+      to size 0 before hover)  */
+  :before {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 0; 
+    /* left: 0; right: 0; */
+    width: 48px;
+    left: calc(50% - 24px);
+    border-radius: 100%;
+    z-index: -1; /* Lets the text sit on top of this */
+    background-color: ${props => props.theme.colorBrandPrimary };
+    transform-origin: center;
+    transform: scale3d(0,0,1);
+    transition: .35s all;
+    opacity: 0.1;
+  }
 
   :hover {
-    background-color: ${props => props.theme.colorBrandPrimary };
     color: white;
     box-shadow: 0 2px 12px rgba(0,0,0,0.7);
+
+    &:before {
+      transform: scale3d(8,8,1);
+      opacity: 1;
+    }
   } 
 
   

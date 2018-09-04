@@ -38,7 +38,7 @@ For the data store of this application, you have two main choices:
 
 I used an mLab MongoDb for the backend data store.  If you want to run the app using a true database backend, you'll need to set that up yourself and edit the connection string in `app.js`.
 
-Additionally, if you want to hide your database credentials as I did, you'll need to use a `.env` file in the root of the project (this file does not get included in source control due to my `.gitignore`.
+Additionally, if you want to hide your database credentials as I did, you'll need to use a `.env` file in the root of the project (this file does not get included in source control due to my `.gitignore`).
 
 TODO: Upload a screenshot showing this section of the `app.js` file...
 

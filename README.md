@@ -32,9 +32,10 @@ Now you can make code edits to either the backend or front-end code and see your
 
 Database requirement
 --------------------
-I used an mLab MongoDb for the backend data store.  If you want to run the app using a true database backend, you'll need to set that up yourself and edit the connection string in `app.js`.  The video tutorial series that I followed explains how to set that up.
+I used an mLab MongoDb for the backend data store.  If you want to run the app using a true database backend, you'll need to set that up yourself and edit the connection string in `app.js`.  The [video tutorial series]((https://www.youtube.com/watch?v=ed8SzALpx1Q)) that I followed explains how to set that up.
 
 Additionally, if you want to hide your database credentials as I did, you'll need to use a `.env` file... (todo explain this more)...
+
 
 
 

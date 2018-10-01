@@ -8,6 +8,8 @@ const BookListWrapper = styled.ul`
   padding: 0;
 `;
 
+const psuedoElementSize = `calc(100% + 20px)`;
+
 const Book = styled.li`
   display: inline-block;
   margin: 8px 24px 8px 0;
@@ -26,16 +28,27 @@ const Book = styled.li`
   :before {
     content: '';
     position: absolute;
-    top: 0; bottom: 0; 
+    /* top: 0; bottom: 0;  */
     /* left: 0; right: 0; */
-    width: 48px;
-    left: calc(50% - 24px);
+    /* width: 48px;
+    left: calc(50% - 24px); */
+
+    
+    /* Fixes with Mike */
+    top: 50%;
+    left: 50%;
+    width: ${psuedoElementSize};
+    /* Trick from Mike:  Use "padding-top: 100%" to get the pseudo-element to become square 
+       (this hack sets the height).  This works because padding percent is always based on the 
+       WIDTH, not height. */
+    padding-top: ${psuedoElementSize};
+
     border-radius: 100%;
     z-index: -1; /* Lets the text sit on top of this */
     background-color: ${props => props.theme.colorBrandPrimary };
-    transform-origin: center;
-    transform: scale3d(0,0,1);
-    transition: .35s all;
+    /* transform-origin: center; */
+    transform: translate(-50%, -50%) scale3d(0,0,1);
+    transition: 0.35s all;
     opacity: 0.1;
   }
 
@@ -44,12 +57,10 @@ const Book = styled.li`
     box-shadow: 0 2px 12px rgba(0,0,0,0.7);
 
     &:before {
-      transform: scale3d(8,8,1);
+      transform: translate(-50%, -50%) scale3d(1,1,1);
       opacity: 1;
     }
   } 
-
-  
 `;
 
 
